@@ -1,0 +1,26 @@
+.panel {
+  background: #181825;
+  border: 1px solid #313244;
+  border-radius: 10px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #cdd6f4;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.inactive {
+  font-size: 12px;
+  color: #45475a;
+  font-style: italic;
+}
