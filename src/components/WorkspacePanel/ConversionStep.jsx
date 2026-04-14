@@ -1,24 +1,29 @@
 import { useDroppable } from '@dnd-kit/core';
 import styles from './ConversionStep.module.css';
 
-function UnitSlot({ stepId, slot, unit, registerRef }) {
+const AVOGADRO = 6.022e23;
+
+function fmtVal(v) {
+  if (Math.abs(v - AVOGADRO) < 1e18) return '6.022×10²³';
+  if (Math.abs(v) >= 1e15) return v.toExponential(3);
+  if (Math.abs(v - Math.round(v)) < 1e-9) return String(Math.round(v));
+  return parseFloat(v.toPrecision(4)).toString();
+}
+
+function UnitSlot({ stepId, slot, unit, highlighted, onUnitClick }) {
   const droppableId = `${stepId}-${slot}`;
   const { setNodeRef, isOver } = useDroppable({
     id: droppableId,
     data: { stepId, slot, accepts: 'unit' },
   });
 
-  const ref = (el) => {
-    setNodeRef(el);
-    registerRef(droppableId, el);
-  };
-
   return (
     <div
-      ref={ref}
-      className={`${styles.unitSlot} ${isOver ? styles.slotOver : ''}`}
+      ref={setNodeRef}
+      className={`${styles.unitSlot} ${isOver ? styles.slotOver : ''} ${highlighted && !unit ? styles.highlighted : ''} ${unit && onUnitClick ? styles.unitSlotClickable : ''}`}
       style={unit ? { backgroundColor: unit.color, borderColor: unit.color } : {}}
       data-slot-id={droppableId}
+      onClick={unit && onUnitClick ? () => onUnitClick(unit, stepId, slot) : undefined}
     >
       {unit ? (
         <span className={styles.unitLabel}>{unit.label}</span>
@@ -29,7 +34,29 @@ function UnitSlot({ stepId, slot, unit, registerRef }) {
   );
 }
 
-function LabelSlot({ stepId, slot, label, cfColor }) {
+function ValueSlot({ stepId, slot, value }) {
+  const droppableId = `${stepId}-value-${slot}`;
+  const { setNodeRef, isOver } = useDroppable({
+    id: droppableId,
+    data: { stepId, slot: `value-${slot}`, accepts: 'value' },
+  });
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={`${styles.valueSlot} ${isOver ? styles.valueSlotOver : ''}`}
+      data-slot-id={droppableId}
+    >
+      {value != null ? (
+        <span className={styles.valueLabel}>{fmtVal(value)}</span>
+      ) : (
+        <span className={styles.valuePlaceholder}>#</span>
+      )}
+    </div>
+  );
+}
+
+function LabelSlot({ stepId, slot, label, cfColor, glow }) {
   const droppableId = `${stepId}-${slot}`;
   const { setNodeRef, isOver } = useDroppable({
     id: droppableId,
@@ -43,7 +70,7 @@ function LabelSlot({ stepId, slot, label, cfColor }) {
   return (
     <div
       ref={setNodeRef}
-      className={`${styles.labelSlot} ${isOver ? styles.slotOver : ''}`}
+      className={`${styles.labelSlot} ${isOver ? styles.slotOver : ''} ${glow && !label ? styles.labelGlow : ''}`}
       style={label ? bgStyle : {}}
     >
       {label ? (
@@ -55,17 +82,19 @@ function LabelSlot({ stepId, slot, label, cfColor }) {
   );
 }
 
-export default function ConversionStep({ step, onSlotDrop, onLabelDrop, onRemove, registerRef }) {
-  // Wire up drops — App.jsx handles the DragEndEvent and calls these
-  // The slot droppables above capture the drop targets; we expose handlers via props.
-
+export default function ConversionStep({ step, mode, onSlotDrop, onLabelDrop, onRemove, highlighted, removable = true, onUnitClick }) {
   if (step.type === 'given') {
     return (
       <div className={styles.stepWrap}>
-        <button className={styles.removeBtn} onClick={() => onRemove(step.id)}>×</button>
-        <div className={styles.givenBox}>
-          <span className={styles.givenLabel}>Given</span>
-          <UnitSlot stepId={step.id} slot="given" unit={step.unit} registerRef={registerRef} />
+        {removable && <button className={styles.removeBtn} onClick={() => onRemove(step.id)}>×</button>}
+        <div className={styles.stepBox}>
+          <div className={styles.stepHeader}>Given</div>
+          <div className={styles.slotRow}>
+            {mode === 'numbers' && (
+              <ValueSlot stepId={step.id} slot="given" value={step.givenValue} />
+            )}
+            <UnitSlot stepId={step.id} slot="given" unit={step.unit} highlighted={highlighted} onUnitClick={onUnitClick} />
+          </div>
         </div>
       </div>
     );
@@ -74,10 +103,12 @@ export default function ConversionStep({ step, onSlotDrop, onLabelDrop, onRemove
   if (step.type === 'equals') {
     return (
       <div className={styles.stepWrap}>
-        <button className={styles.removeBtn} onClick={() => onRemove(step.id)}>×</button>
-        <div className={styles.equalsBox}>
-          <span className={styles.equalsSign}>=</span>
-          <UnitSlot stepId={step.id} slot="equals" unit={step.unit} registerRef={registerRef} />
+        {removable && <button className={styles.removeBtn} onClick={() => onRemove(step.id)}>×</button>}
+        <div className={styles.stepBox}>
+          <div className={styles.stepHeader}>Final</div>
+          <div className={styles.slotRow}>
+            <UnitSlot stepId={step.id} slot="equals" unit={step.unit} highlighted={highlighted} onUnitClick={onUnitClick} />
+          </div>
         </div>
       </div>
     );
@@ -86,25 +117,30 @@ export default function ConversionStep({ step, onSlotDrop, onLabelDrop, onRemove
   // type === 'factor'
   return (
     <div className={styles.stepWrap}>
-      <button className={styles.removeBtn} onClick={() => onRemove(step.id)}>×</button>
-      <div className={styles.factorOuter}>
+      {removable && <button className={styles.removeBtn} onClick={() => onRemove(step.id)}>×</button>}
+      <div className={styles.stepBox}>
         <LabelSlot
           stepId={step.id}
           slot="label-top"
-          label={step.cfLabel}
-          cfColor={step.cfColor}
+          label={step.cfLabelTop}
+          cfColor={step.cfColorTop}
+          glow={!step.cfLabelTop && (!!step.numeratorUnit || !!step.denominatorUnit)}
         />
         <div className={styles.fraction}>
-          <UnitSlot stepId={step.id} slot="numerator" unit={step.numeratorUnit} registerRef={registerRef} />
+          <div className={styles.slotRow}>
+            {mode === 'numbers' && (
+              <ValueSlot stepId={step.id} slot="numerator" value={step.numeratorValue} />
+            )}
+            <UnitSlot stepId={step.id} slot="numerator" unit={step.numeratorUnit} onUnitClick={onUnitClick} />
+          </div>
           <div className={styles.dividerLine} />
-          <UnitSlot stepId={step.id} slot="denominator" unit={step.denominatorUnit} registerRef={registerRef} />
+          <div className={styles.slotRow}>
+            {mode === 'numbers' && (
+              <ValueSlot stepId={step.id} slot="denominator" value={step.denominatorValue} />
+            )}
+            <UnitSlot stepId={step.id} slot="denominator" unit={step.denominatorUnit} onUnitClick={onUnitClick} />
+          </div>
         </div>
-        <LabelSlot
-          stepId={step.id}
-          slot="label-bottom"
-          label={step.cfLabel ? '' : null}
-          cfColor={step.cfColor}
-        />
       </div>
     </div>
   );

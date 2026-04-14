@@ -1,21 +1,30 @@
-// Unit color assignments — each unit has a unique color
+// Unit color assignments
+// Main palette: blue #00addb, teal #17b29e, green #85c441, purple #748ac5,
+//               pink #e9177a, yellow #fdb714, grey #4f5b6f
+// Variations (kg, mg, mL, atoms) are darker shades of their group's main color.
 export const UNIT_COLORS = {
-  kg:    '#4A90D9',
-  g:     '#E67E22',
-  mg:    '#F1C40F',
-  mol_A: '#2ECC71',
-  mol_B: '#1ABC9C',
-  L:     '#9B59B6',
-  mL:    '#8E44AD',
-  mlcls: '#E74C3C',
-  atoms: '#C0392B',
-  ions:  '#D35400',
+  // Mass — blue family
+  kg:    '#007fa3',   // dark blue   (large unit variation)
+  g:     '#00addb',   // BLUE        (main mass)
+  mg:    '#005e78',   // darkest blue (small unit variation)
+  // Moles
+  mol:   '#17b29e',   // TEAL        (generic mol — easy/medium only)
+  mol_A: '#17b29e',   // TEAL
+  mol_B: '#85c441',   // GREEN
+  // Volume — purple family
+  L:     '#748ac5',   // PURPLE      (main volume)
+  mL:    '#576894',   // dark purple (variation)
+  // Particles — pink / yellow
+  mlcls: '#e9177a',   // PINK        (main — neutral molecules)
+  atoms: '#ba1262',   // dark pink   (variation)
+  ions:  '#8c0f49',   // darkest pink (particles — ions)
 };
 
 export const UNITS = [
   { id: 'kg',    label: 'kg',    group: 'Metric',    color: UNIT_COLORS.kg },
   { id: 'g',     label: 'g',     group: 'Metric',    color: UNIT_COLORS.g },
   { id: 'mg',    label: 'mg',    group: 'Metric',    color: UNIT_COLORS.mg },
+  { id: 'mol',   label: 'mol',   group: 'Moles',     color: UNIT_COLORS.mol },
   { id: 'mol_A', label: 'mol A', group: 'Moles',     color: UNIT_COLORS.mol_A },
   { id: 'mol_B', label: 'mol B', group: 'Moles',     color: UNIT_COLORS.mol_B },
   { id: 'L',     label: 'L',     group: 'Volume',    color: UNIT_COLORS.L },
@@ -56,5 +65,11 @@ export const CONVERSION_FACTORS = [
     label: 'Metric',
     colorA: UNIT_COLORS.kg,
     colorB: UNIT_COLORS.mg,
+  },
+  {
+    id: 'atomic_ratio',
+    label: 'Atomic Ratio',
+    colorA: UNIT_COLORS.mlcls,
+    colorB: UNIT_COLORS.atoms,
   },
 ];

@@ -1,0 +1,182 @@
+/* ── Modal (welcome / done) ─────────────────────────────────────────── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+}
+
+.modal {
+  background: #1e1e2e;
+  border: 1px solid #313244;
+  border-radius: 14px;
+  padding: 30px 34px;
+  max-width: 440px;
+  width: calc(100vw - 48px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #cba6f7;
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.modalBody {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #cdd6f4;
+  margin: 0 0 26px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btnPrimary {
+  padding: 9px 22px;
+  background: #cba6f7;
+  color: #1e1e2e;
+  border: none;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnPrimary:hover {
+  background: #d9b8ff;
+}
+
+.btnSecondary {
+  padding: 8px 16px;
+  background: transparent;
+  color: #6c7086;
+  border: 1px solid #313244;
+  border-radius: 7px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btnSecondary:hover {
+  color: #cdd6f4;
+  border-color: #45475a;
+}
+
+/* ── Spotlight cutout ───────────────────────────────────────────────── */
+
+.spotlight {
+  position: fixed;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.62);
+  pointer-events: none;
+  z-index: 10000;
+  outline: 2px solid rgba(203, 166, 247, 0.55);
+  transition: left 0.2s ease, top 0.2s ease, width 0.2s ease, height 0.2s ease;
+}
+
+/* ── Tooltip bubble ─────────────────────────────────────────────────── */
+
+.tooltip {
+  z-index: 10001;
+  background: #1e1e2e;
+  border: 1px solid #313244;
+  border-left: 3px solid #cba6f7;
+  border-radius: 9px;
+  padding: 14px 16px;
+  max-width: 300px;
+  width: max-content;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.65);
+}
+
+.tooltipBody {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #cdd6f4;
+  margin: 0 0 12px;
+}
+
+.tooltipFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.stepCount {
+  font-size: 11px;
+  color: #6c7086;
+  flex-shrink: 0;
+}
+
+.tooltipActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnGotIt {
+  padding: 5px 12px;
+  background: #cba6f7;
+  color: #1e1e2e;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnGotIt:hover {
+  background: #d9b8ff;
+}
+
+.btnSkipLink {
+  font-size: 11px;
+  color: #585b70;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.12s;
+}
+
+.btnSkipLink:hover {
+  color: #9399b2;
+}
+
+/* ── Help button (in header) ────────────────────────────────────────── */
+
+.helpBtn {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid #313244;
+  background: transparent;
+  color: #6c7086;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.12s, border-color 0.12s;
+  flex-shrink: 0;
+}
+
+.helpBtn:hover {
+  color: #cba6f7;
+  border-color: #cba6f7;
+}

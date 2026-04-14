@@ -1,52 +1,161 @@
+/* ── Outer panel — flex row: workspace main | roadmap sidebar ── */
+
 .panel {
   background: #1e1e2e;
   border: 1px solid #313244;
   border-radius: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   overflow: hidden;
 }
+
+/* ── Left column: problem + toolbar + canvas area ── */
+
+.workspaceMain {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Toolbar: mode switch only ── */
 
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
+  gap: 10px;
+  padding: 8px 14px;
   border-bottom: 1px solid #313244;
   background: #181825;
   flex-shrink: 0;
 }
 
-.panelTitle {
-  font-size: 13px;
-  font-weight: 600;
-  color: #cdd6f4;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-right: auto;
+/* ── Mode switch ── */
+
+.modeSwitch {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  user-select: none;
 }
 
-.toolBtn {
-  padding: 5px 12px;
-  border-radius: 6px;
-  border: 1px solid #45475a;
+.switchTrack {
+  width: 38px;
+  height: 20px;
+  border-radius: 10px;
   background: #313244;
+  border: 1px solid #45475a;
+  position: relative;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.switchOn {
+  background: rgba(249, 226, 175, 0.15);
+  border-color: #f9e2af;
+}
+
+.switchThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #585b70;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.switchOn .switchThumb {
+  transform: translateX(18px);
+  background: #f9e2af;
+}
+
+.modeLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: #45475a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+}
+
+.modeLabelActive {
   color: #cdd6f4;
+}
+
+/* ── Feedback banner ── */
+
+.feedbackBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
   font-size: 12px;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+  border-bottom: 1px solid transparent;
 }
 
-.toolBtn:hover {
-  background: #45475a;
-  border-color: #585b70;
+.feedbackOk {
+  background: rgba(166, 227, 161, 0.1);
+  border-bottom-color: rgba(166, 227, 161, 0.25);
+  color: #a6e3a1;
 }
+
+.feedbackErr {
+  background: rgba(243, 139, 168, 0.1);
+  border-bottom-color: rgba(243, 139, 168, 0.25);
+  color: #f38ba8;
+}
+
+.feedbackMsg {
+  flex: 1;
+}
+
+.feedbackClose {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 900;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.feedbackClose:hover {
+  opacity: 1;
+}
+
+/* ── Canvas area: canvas+numbers column | action sidebar ── */
+
+.canvasArea {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.canvasCol {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Canvas (scrollable steps area) ── */
 
 .canvas {
-  flex: 1;
+  flex-shrink: 0;
   position: relative;
-  padding: 24px 20px;
+  padding: 20px 20px 14px;
   overflow-x: auto;
   overflow-y: hidden;
   transition: background 0.15s;
@@ -59,21 +168,294 @@
 .stepsRow {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   gap: 18px;
-  min-height: 140px;
-  position: relative;
-  z-index: 1;
+  min-height: 120px;
 }
 
-.empty {
+/* ── Ghost step (pairing mode) ── */
+
+.ghostStep {
+  flex-shrink: 0;
+  opacity: 0.45;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ghostStep:hover {
+  opacity: 0.8;
+}
+
+.ghostBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 2px dashed #585b70;
+  border-radius: 8px;
+  background: #181825;
+}
+
+.ghostHeader {
+  width: 100%;
+  min-height: 26px;
+}
+
+.ghostFraction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ghostSlotRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.ghostSlot {
+  min-width: 72px;
+  min-height: 38px;
+  border: 2px dashed #45475a;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ghostValueSlot {
+  min-width: 28px;
+  min-height: 38px;
+  border: 2px dashed #313244;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ghostDivider {
+  width: 100%;
+  height: 2px;
+  background: #585b70;
+  border-radius: 1px;
+  margin: 2px 0;
+}
+
+.ghostPlaceholder {
+  font-size: 10px;
   color: #45475a;
-  font-size: 13px;
+  user-select: none;
+}
+
+/* ── Action sidebar: Submit / Next / Reset ── */
+
+.actionSidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 14px 8px;
+  border-left: 1px solid #313244;
+  background: #181825;
+  flex-shrink: 0;
+  width: 72px;
+}
+
+.actionBtn {
+  padding: 7px 4px;
+  border-radius: 6px;
+  border: 1px solid;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
   text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
   white-space: nowrap;
+}
+
+.actionSubmit {
+  border-color: #a6e3a1;
+  background: rgba(166, 227, 161, 0.08);
+  color: #a6e3a1;
+}
+
+.actionSubmit:hover {
+  background: rgba(166, 227, 161, 0.2);
+}
+
+.actionNext {
+  border-color: #89b4fa;
+  background: rgba(137, 180, 250, 0.08);
+  color: #89b4fa;
+}
+
+.actionNext:hover {
+  background: rgba(137, 180, 250, 0.2);
+}
+
+.actionReset {
+  border-color: #f38ba8;
+  background: transparent;
+  color: #f38ba8;
+}
+
+.actionReset:hover {
+  background: rgba(243, 139, 168, 0.15);
+}
+
+/* ── Cursor pill ── */
+
+.cursorPill {
+  position: fixed;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  pointer-events: none;
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transform: translateY(-50%);
+}
+
+/* ── Right column: unit roadmap sidebar ── */
+
+.roadmapPanel {
+  border-left: 1px solid #313244;
+  background: #181825;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.22s ease;
+}
+
+.roadmapClosed {
+  width: 40px;
+}
+
+.roadmapOpen {
+  width: 420px;
+}
+
+.roadmapToggleBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  gap: 10px;
+  padding: 14px 0 0;
+  color: #45475a;
+  transition: color 0.15s;
+}
+
+.roadmapToggleBtn:hover {
+  color: #cba6f7;
+}
+
+.roadmapExpandIcon {
+  font-size: 16px;
+  line-height: 1;
+  transform: scaleX(-1);
+  display: block;
+}
+
+.roadmapToggleText {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.roadmapHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid #313244;
+  flex-shrink: 0;
+}
+
+.roadmapTitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: #6c7086;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.roadmapClickable {
+  flex: 1;
+  min-height: 0;
+  cursor: zoom-in;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.roadmapClickable:hover {
+  background: rgba(203, 166, 247, 0.04);
+}
+
+.roadmapCollapseBtn {
+  background: none;
+  border: none;
+  color: #6c7086;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.roadmapCollapseBtn:hover {
+  color: #cdd6f4;
+}
+
+/* ── Roadmap expanded modal ── */
+
+.roadmapModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.roadmapModalInner {
+  background: #1e1e2e;
+  border: 1px solid #313244;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  width: min(680px, 90vw);
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.roadmapModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #313244;
+  flex-shrink: 0;
 }

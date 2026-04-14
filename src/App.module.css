@@ -1,6 +1,6 @@
 .layout {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto 1fr;
   height: 100vh;
   background: #11111b;
   color: #cdd6f4;
@@ -14,7 +14,6 @@
   display: flex;
   align-items: baseline;
   gap: 12px;
-  flex-shrink: 0;
   padding: 4px 6px;
 }
 
@@ -32,12 +31,30 @@
 
 .main {
   display: grid;
-  grid-template-columns: 1fr 240px;
+  /* grid-template-columns set via inline style from App.jsx (palette width + 1fr) */
   gap: 10px;
-  flex: 1;
   min-height: 0;
 }
 
-.footer {
+.helpBtn {
+  margin-left: auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #313244;
+  background: transparent;
+  color: #6c7086;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.helpBtn:hover {
+  color: #cba6f7;
+  border-color: #cba6f7;
 }

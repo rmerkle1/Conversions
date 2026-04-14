@@ -1,0 +1,39 @@
+.wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* SVG text classes */
+.nodeLabel {
+  font-size: 7.5px;
+  font-weight: 700;
+  fill: #cdd6f4;
+  font-family: inherit;
+}
+
+.cfLabel {
+  font-size: 6.5px;
+  font-weight: 600;
+  font-style: italic;
+  fill: #6c7086;
+  font-family: inherit;
+}
+
+.circleTitle {
+  font-size: 8px;
+  font-weight: 800;
+  fill: #9399b2;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: inherit;
+}

@@ -1,75 +1,101 @@
 import { useEffect, useState } from 'react';
 
 /**
- * Draws colored SVG curves between unit slots that share the same unit.
- * Runs after every render so positions are always current.
+ * Draws solid colored SVG lines connecting unit slots that share the same unit.
+ * Queries the DOM via data-slot-id attributes after a requestAnimationFrame so
+ * getBoundingClientRect() is guaranteed to return the freshly-painted layout.
+ * Also draws a live dashed line from the source slot to the cursor during pairing mode.
  */
-export default function ConnectionLines({ steps, stepRefs }) {
+export default function ConnectionLines({ steps, canvasRef, pairingUnit, mouseCanvas, mode }) {
   const [lines, setLines] = useState([]);
 
   useEffect(() => {
-    // Collect all filled slots: { key, unit, el }
-    const slots = [];
+    let rafId;
 
-    steps.forEach((step) => {
-      if (step.type === 'given' && step.unit) {
-        const key = `${step.id}-given`;
-        if (stepRefs.current[key]) slots.push({ key, unit: step.unit, el: stepRefs.current[key] });
-      }
-      if (step.type === 'factor') {
-        if (step.numeratorUnit) {
-          const key = `${step.id}-numerator`;
-          if (stepRefs.current[key]) slots.push({ key, unit: step.numeratorUnit, el: stepRefs.current[key] });
+    rafId = requestAnimationFrame(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      // Build a map of unit id → list of {key, unit, el} for every filled slot
+      const byUnit = {};
+
+      const addSlot = (stepId, slotName, unit) => {
+        if (!unit) return;
+        const el = canvas.querySelector(`[data-slot-id="${stepId}-${slotName}"]`);
+        if (!el) return;
+        // Group by label, not id — compound-specific units like "g H₂" and "g H₂O"
+        // share the same id but are different units and must not be connected.
+        const groupKey = unit.label ?? unit.id;
+        if (!byUnit[groupKey]) byUnit[groupKey] = [];
+        byUnit[groupKey].push({ key: `${stepId}-${slotName}`, unit, el });
+      };
+
+      steps.forEach((step) => {
+        if (step.type === 'given')  addSlot(step.id, 'given',       step.unit);
+        if (step.type === 'equals') addSlot(step.id, 'equals',      step.unit);
+        if (step.type === 'factor') {
+          addSlot(step.id, 'numerator',   step.numeratorUnit);
+          addSlot(step.id, 'denominator', step.denominatorUnit);
         }
-        if (step.denominatorUnit) {
-          const key = `${step.id}-denominator`;
-          if (stepRefs.current[key]) slots.push({ key, unit: step.denominatorUnit, el: stepRefs.current[key] });
+      });
+
+      const canvasRect = canvas.getBoundingClientRect();
+      const scrollLeft = canvas.scrollLeft;
+      const newLines = [];
+
+      Object.values(byUnit).forEach((group) => {
+        if (group.length < 2) return;
+        for (let i = 0; i < group.length - 1; i++) {
+          const a = group[i].el.getBoundingClientRect();
+          const b = group[i + 1].el.getBoundingClientRect();
+
+          const x1 = a.right - canvasRect.left + scrollLeft;
+          const y1 = (a.top + a.bottom) / 2 - canvasRect.top;
+          const x2 = b.left  - canvasRect.left + scrollLeft;
+          const y2 = (b.top + b.bottom) / 2 - canvasRect.top;
+
+          newLines.push({
+            d: `M ${x1} ${y1} L ${x2} ${y2}`,
+            color: group[i].unit.color,
+            key: `${group[i].key}-${group[i + 1].key}`,
+          });
         }
-      }
-      if (step.type === 'equals' && step.unit) {
-        const key = `${step.id}-equals`;
-        if (stepRefs.current[key]) slots.push({ key, unit: step.unit, el: stepRefs.current[key] });
-      }
+      });
+
+      setLines(newLines);
     });
 
-    // Group by unit id
-    const byUnit = {};
-    slots.forEach((s) => {
-      if (!byUnit[s.unit.id]) byUnit[s.unit.id] = [];
-      byUnit[s.unit.id].push(s);
-    });
+    return () => cancelAnimationFrame(rafId);
+  }, [steps, canvasRef, pairingUnit, mode]);
 
-    // Find the SVG container (the .canvas div's parent for coordinate offset)
-    const svgEl = document.getElementById('connection-svg');
-    if (!svgEl) return;
-    const svgRect = svgEl.getBoundingClientRect();
-
-    const newLines = [];
-    Object.values(byUnit).forEach((group) => {
-      if (group.length < 2) return;
-      for (let i = 0; i < group.length - 1; i++) {
-        const a = group[i].el.getBoundingClientRect();
-        const b = group[i + 1].el.getBoundingClientRect();
-
-        const x1 = a.left + a.width / 2 - svgRect.left;
-        const y1 = a.top + a.height / 2 - svgRect.top;
-        const x2 = b.left + b.width / 2 - svgRect.left;
-        const y2 = b.top + b.height / 2 - svgRect.top;
-
-        // Cubic bezier: control points arc upward/downward
-        const cy = Math.min(y1, y2) - 40;
-        const d = `M ${x1} ${y1} C ${x1} ${cy}, ${x2} ${cy}, ${x2} ${y2}`;
-
-        newLines.push({ d, color: group[i].unit.color, key: `${group[i].key}-${group[i+1].key}` });
-      }
-    });
-
-    setLines(newLines);
-  }, [steps, stepRefs]);
+  // Live pairing line — computed during render so it updates on every mouse move.
+  // Reads positions from the already-committed DOM (previous render's layout).
+  let liveLine = null;
+  if (pairingUnit && mouseCanvas && canvasRef.current) {
+    const canvas = canvasRef.current;
+    const sourceEl = canvas.querySelector(
+      `[data-slot-id="${pairingUnit.sourceStepId}-${pairingUnit.sourceSlot}"]`
+    );
+    if (sourceEl) {
+      const canvasRect = canvas.getBoundingClientRect();
+      const a = sourceEl.getBoundingClientRect();
+      const x1 = a.right - canvasRect.left + canvas.scrollLeft;
+      const y1 = (a.top + a.bottom) / 2 - canvasRect.top;
+      liveLine = (
+        <path
+          d={`M ${x1} ${y1} L ${mouseCanvas.x} ${mouseCanvas.y}`}
+          fill="none"
+          stroke={pairingUnit.unit.color}
+          strokeWidth={2.5}
+          strokeDasharray="6 4"
+          opacity={0.85}
+        />
+      );
+    }
+  }
 
   return (
     <svg
-      id="connection-svg"
       style={{
         position: 'absolute',
         top: 0,
@@ -78,23 +104,9 @@ export default function ConnectionLines({ steps, stepRefs }) {
         height: '100%',
         pointerEvents: 'none',
         overflow: 'visible',
+        zIndex: 10,
       }}
     >
-      <defs>
-        {lines.map((l) => (
-          <marker
-            key={`arrow-${l.key}`}
-            id={`arrow-${l.key}`}
-            markerWidth="8"
-            markerHeight="8"
-            refX="6"
-            refY="3"
-            orient="auto"
-          >
-            <path d="M0,0 L0,6 L8,3 z" fill={l.color} />
-          </marker>
-        ))}
-      </defs>
       {lines.map((l) => (
         <path
           key={l.key}
@@ -102,11 +114,10 @@ export default function ConnectionLines({ steps, stepRefs }) {
           fill="none"
           stroke={l.color}
           strokeWidth={2.5}
-          strokeDasharray="6 3"
-          markerEnd={`url(#arrow-${l.key})`}
-          opacity={0.85}
+          opacity={0.9}
         />
       ))}
+      {liveLine}
     </svg>
   );
 }

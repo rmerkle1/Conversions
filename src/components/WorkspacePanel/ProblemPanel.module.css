@@ -1,0 +1,227 @@
+.panel {
+  background: #181825;
+  border-bottom: 1px solid #313244;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+/* ── Toolbar ── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-bottom: 1px solid #313244;
+}
+
+.diffToggle {
+  display: flex;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.diffBtn {
+  padding: 4px 12px;
+  background: transparent;
+  border: none;
+  color: #6c7086;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.diffBtn + .diffBtn {
+  border-left: 1px solid #45475a;
+}
+
+.diffBtn:hover {
+  background: #313244;
+  color: #cdd6f4;
+}
+
+.diff_easy   { background: #1e3a2f; color: #a6e3a1; }
+.diff_medium { background: #2e2a1a; color: #f9e2af; }
+.diff_hard   { background: #2e1a1a; color: #f38ba8; }
+.diff_easy:hover   { background: #1e4035; }
+.diff_medium:hover { background: #3a341e; }
+.diff_hard:hover   { background: #3a1e1e; }
+
+/* ── Two-column content area ── */
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 12px;
+  padding: 10px 14px 12px;
+  align-items: start;
+}
+
+/* ── Left column ── */
+
+.questionCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+/* ── Reaction badge ── */
+
+.equationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: rgba(203, 166, 247, 0.08);
+  border: 1px solid rgba(203, 166, 247, 0.25);
+  border-radius: 20px;
+  align-self: flex-start;
+}
+
+.equationLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: #6c7086;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.equationText {
+  font-size: 16px;
+  font-weight: 700;
+  color: #cba6f7;
+  font-family: 'Courier New', monospace;
+}
+
+/* ── Selection prompt banner ── */
+
+.prompt {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  align-self: flex-start;
+}
+
+.prompt_given {
+  background: rgba(166, 227, 161, 0.12);
+  border: 1px solid rgba(166, 227, 161, 0.35);
+  color: #a6e3a1;
+}
+
+.prompt_find {
+  background: rgba(116, 199, 236, 0.12);
+  border: 1px solid rgba(116, 199, 236, 0.35);
+  color: #74c7ec;
+}
+
+/* ── Question text + unit tokens ── */
+
+.questionText {
+  margin: 0;
+  font-size: 14px;
+  color: #cdd6f4;
+  line-height: 1.65;
+}
+
+.unitToken {
+  font-weight: 800;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 1px;
+  transition: opacity 0.12s;
+}
+
+.unitTokenClickable {
+  cursor: pointer;
+  border-bottom-style: solid;
+}
+
+.unitTokenClickable:hover {
+  opacity: 0.75;
+}
+
+/* ── Additional info (italic note) ── */
+
+.noteText {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-style: italic;
+  color: #9399b2;
+  line-height: 1.4;
+}
+
+/* ── Right column: hints ── */
+
+.hintCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.hintToggle {
+  background: none;
+  border: 1px solid #45475a;
+  border-radius: 6px;
+  color: #6c7086;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  padding: 5px 10px;
+  align-self: flex-start;
+  transition: color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+
+.hintToggle:hover {
+  color: #cba6f7;
+  border-color: #cba6f7;
+}
+
+.hintCard {
+  padding: 8px 10px;
+  background: #1e1e2e;
+  border: 1px solid #313244;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hintCardTitle {
+  font-size: 9px;
+  font-weight: 700;
+  color: #45475a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hintCardBody {
+  font-size: 12px;
+  color: #a6adc8;
+  line-height: 1.4;
+}
+
+.hintSetup {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  word-break: break-word;
+}
+
+/* ── Empty state ── */
+
+.empty {
+  padding: 14px;
+  font-size: 13px;
+  color: #45475a;
+  text-align: center;
+}
