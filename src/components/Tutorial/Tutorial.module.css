@@ -3,7 +3,7 @@
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.78);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,19 +11,19 @@
 }
 
 .modal {
-  background: #1e1e2e;
-  border: 1px solid #313244;
+  background: #fff;
+  border: 1px solid #d1d9e0;
   border-radius: 14px;
   padding: 30px 34px;
   max-width: 440px;
   width: calc(100vw - 48px);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12);
 }
 
 .modalTitle {
   font-size: 20px;
   font-weight: 800;
-  color: #cba6f7;
+  color: #6d28d9;
   margin: 0 0 12px;
   letter-spacing: -0.01em;
 }
@@ -31,7 +31,7 @@
 .modalBody {
   font-size: 14px;
   line-height: 1.65;
-  color: #cdd6f4;
+  color: #1a202c;
   margin: 0 0 26px;
 }
 
@@ -43,8 +43,8 @@
 
 .btnPrimary {
   padding: 9px 22px;
-  background: #cba6f7;
-  color: #1e1e2e;
+  background: #7c3aed;
+  color: #fff;
   border: none;
   border-radius: 7px;
   font-size: 14px;
@@ -54,14 +54,14 @@
 }
 
 .btnPrimary:hover {
-  background: #d9b8ff;
+  background: #6d28d9;
 }
 
 .btnSecondary {
   padding: 8px 16px;
   background: transparent;
-  color: #6c7086;
-  border: 1px solid #313244;
+  color: #718096;
+  border: 1px solid #d1d9e0;
   border-radius: 7px;
   font-size: 13px;
   cursor: pointer;
@@ -69,8 +69,8 @@
 }
 
 .btnSecondary:hover {
-  color: #cdd6f4;
-  border-color: #45475a;
+  color: #1a202c;
+  border-color: #a0aec0;
 }
 
 /* ── Spotlight cutout ───────────────────────────────────────────────── */
@@ -78,10 +78,10 @@
 .spotlight {
   position: fixed;
   border-radius: 8px;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.62);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.42);
   pointer-events: none;
   z-index: 10000;
-  outline: 2px solid rgba(203, 166, 247, 0.55);
+  outline: 2px solid rgba(109, 40, 217, 0.55);
   transition: left 0.2s ease, top 0.2s ease, width 0.2s ease, height 0.2s ease;
 }
 
@@ -89,20 +89,20 @@
 
 .tooltip {
   z-index: 10001;
-  background: #1e1e2e;
-  border: 1px solid #313244;
-  border-left: 3px solid #cba6f7;
+  background: #fff;
+  border: 1px solid #d1d9e0;
+  border-left: 3px solid #6d28d9;
   border-radius: 9px;
   padding: 14px 16px;
   max-width: 300px;
   width: max-content;
-  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.12);
 }
 
 .tooltipBody {
   font-size: 13px;
   line-height: 1.6;
-  color: #cdd6f4;
+  color: #1a202c;
   margin: 0 0 12px;
 }
 
@@ -115,7 +115,7 @@
 
 .stepCount {
   font-size: 11px;
-  color: #6c7086;
+  color: #718096;
   flex-shrink: 0;
 }
 
@@ -127,8 +127,8 @@
 
 .btnGotIt {
   padding: 5px 12px;
-  background: #cba6f7;
-  color: #1e1e2e;
+  background: #7c3aed;
+  color: #fff;
   border: none;
   border-radius: 5px;
   font-size: 12px;
@@ -138,12 +138,12 @@
 }
 
 .btnGotIt:hover {
-  background: #d9b8ff;
+  background: #6d28d9;
 }
 
 .btnSkipLink {
   font-size: 11px;
-  color: #585b70;
+  color: #a0aec0;
   background: none;
   border: none;
   cursor: pointer;
@@ -153,7 +153,7 @@
 }
 
 .btnSkipLink:hover {
-  color: #9399b2;
+  color: #718096;
 }
 
 /* ── Help button (in header) ────────────────────────────────────────── */
@@ -163,9 +163,9 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 1px solid #313244;
+  border: 1px solid #d1d9e0;
   background: transparent;
-  color: #6c7086;
+  color: #718096;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -177,6 +177,6 @@
 }
 
 .helpBtn:hover {
-  color: #cba6f7;
-  border-color: #cba6f7;
+  color: #6d28d9;
+  border-color: #6d28d9;
 }

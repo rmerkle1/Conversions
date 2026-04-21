@@ -217,13 +217,13 @@ export default function App() {
         {activeItem?.type === 'number' && (
           <div
             style={{
-              background: '#313244',
-              border: '1px solid #45475a',
+              background: '#f0f4f8',
+              border: '1px solid #d1d9e0',
               padding: '5px 14px',
               borderRadius: 6,
               fontWeight: 700,
               fontSize: 13,
-              color: '#f9e2af',
+              color: '#c08800',
               fontFamily: "'Courier New', monospace",
               boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
               cursor: 'grabbing',

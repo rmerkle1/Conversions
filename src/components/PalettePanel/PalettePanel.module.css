@@ -1,8 +1,8 @@
 /* ── Expanded panel ── */
 
 .panel {
-  background: #1e1e2e;
-  border: 1px solid #313244;
+  background: #fff;
+  border: 1px solid #d1d9e0;
   border-radius: 10px;
   padding: 10px 14px 14px;
   display: flex;
@@ -11,6 +11,7 @@
   overflow-y: auto;
   width: 240px;
   box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .panelHeader {
@@ -23,7 +24,7 @@
 .panelTitle {
   font-size: 11px;
   font-weight: 700;
-  color: #6c7086;
+  color: #718096;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -31,7 +32,7 @@
 .collapseBtn {
   background: none;
   border: none;
-  color: #45475a;
+  color: #a0aec0;
   cursor: pointer;
   font-size: 18px;
   line-height: 1;
@@ -40,14 +41,14 @@
 }
 
 .collapseBtn:hover {
-  color: #cba6f7;
+  color: #6d28d9;
 }
 
 /* ── Collapsed state ── */
 
 .collapsed {
-  background: #1e1e2e;
-  border: 1px solid #313244;
+  background: #fff;
+  border: 1px solid #d1d9e0;
   border-radius: 10px;
   width: 40px;
   box-sizing: border-box;
@@ -60,27 +61,28 @@
   transition: border-color 0.15s, box-shadow 0.15s;
   position: relative;
   user-select: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 .collapsed:hover {
-  border-color: #585b70;
+  border-color: #a0aec0;
 }
 
 .collapsedIcon {
   font-size: 16px;
-  color: #45475a;
+  color: #a0aec0;
   line-height: 1;
   transition: color 0.15s;
 }
 
 .collapsed:hover .collapsedIcon {
-  color: #cba6f7;
+  color: #6d28d9;
 }
 
 .collapsedLabel {
   font-size: 9px;
   font-weight: 700;
-  color: #45475a;
+  color: #a0aec0;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   writing-mode: vertical-rl;
@@ -90,19 +92,19 @@
 }
 
 .collapsed:hover .collapsedLabel {
-  color: #9399b2;
+  color: #718096;
 }
 
 /* ── Glow state (both units set, palette still collapsed) ── */
 
 @keyframes paletteGlow {
   0%, 100% {
-    border-color: rgba(203, 166, 247, 0.4);
-    box-shadow: 0 0 8px rgba(203, 166, 247, 0.2);
+    border-color: rgba(109, 40, 217, 0.4);
+    box-shadow: 0 0 8px rgba(109, 40, 217, 0.15);
   }
   50% {
-    border-color: rgba(203, 166, 247, 0.9);
-    box-shadow: 0 0 20px rgba(203, 166, 247, 0.45);
+    border-color: rgba(109, 40, 217, 0.8);
+    box-shadow: 0 0 20px rgba(109, 40, 217, 0.3);
   }
 }
 
@@ -112,14 +114,14 @@
 
 .collapsedGlow .collapsedIcon,
 .collapsedGlow .collapsedLabel {
-  color: #cba6f7;
+  color: #6d28d9;
 }
 
 .glowDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #cba6f7;
+  background: #6d28d9;
   flex-shrink: 0;
 }
 
@@ -142,12 +144,12 @@
 .columnHeader {
   font-size: 11px;
   font-weight: 700;
-  color: #a6adc8;
+  color: #4a5568;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 4px;
   padding-bottom: 4px;
-  border-bottom: 1px solid #313244;
+  border-bottom: 1px solid #d1d9e0;
   min-height: 32px;
   display: flex;
   align-items: flex-end;
@@ -156,7 +158,7 @@
 .group {
   display: flex;
   flex-direction: row;
-  border: 1px solid #313244;
+  border: 1px solid #d1d9e0;
   border-radius: 7px;
   overflow: hidden;
 }
@@ -167,15 +169,15 @@
   justify-content: center;
   width: 20px;
   flex-shrink: 0;
-  background: #181825;
-  border-right: 1px solid #313244;
+  background: #f8fafc;
+  border-right: 1px solid #d1d9e0;
   padding: 6px 0;
 }
 
 .groupLabelVertical span {
   font-size: 9px;
   font-weight: 700;
-  color: #9399b2;
+  color: #718096;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   writing-mode: vertical-rl;
@@ -200,12 +202,12 @@
   cursor: grab;
   user-select: none;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   transition: filter 0.15s;
 }
 
 .unitPill:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.1);
 }
 
 .cfPill {
@@ -217,11 +219,11 @@
   cursor: grab;
   user-select: none;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   transition: filter 0.15s;
 }
 
 .cfPill:hover {
-  filter: brightness(1.15);
+  filter: brightness(1.1);
 }

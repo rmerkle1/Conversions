@@ -1,6 +1,6 @@
 .panel {
-  background: #181825;
-  border-bottom: 1px solid #313244;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -13,12 +13,12 @@
   align-items: center;
   gap: 8px;
   padding: 8px 14px;
-  border-bottom: 1px solid #313244;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .diffToggle {
   display: flex;
-  border: 1px solid #45475a;
+  border: 1px solid #d1d9e0;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -27,7 +27,7 @@
   padding: 4px 12px;
   background: transparent;
   border: none;
-  color: #6c7086;
+  color: #718096;
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
@@ -37,20 +37,20 @@
 }
 
 .diffBtn + .diffBtn {
-  border-left: 1px solid #45475a;
+  border-left: 1px solid #d1d9e0;
 }
 
 .diffBtn:hover {
-  background: #313244;
-  color: #cdd6f4;
+  background: #edf2f7;
+  color: #1a202c;
 }
 
-.diff_easy   { background: #1e3a2f; color: #a6e3a1; }
-.diff_medium { background: #2e2a1a; color: #f9e2af; }
-.diff_hard   { background: #2e1a1a; color: #f38ba8; }
-.diff_easy:hover   { background: #1e4035; }
-.diff_medium:hover { background: #3a341e; }
-.diff_hard:hover   { background: #3a1e1e; }
+.diff_easy   { background: rgba(166, 227, 161, 0.15); color: #2d7a4f; }
+.diff_medium { background: rgba(249, 226, 175, 0.15); color: #c08800; }
+.diff_hard   { background: rgba(243, 139, 168, 0.15); color: #b00060; }
+.diff_easy:hover   { background: rgba(166, 227, 161, 0.28); }
+.diff_medium:hover { background: rgba(249, 226, 175, 0.28); }
+.diff_hard:hover   { background: rgba(243, 139, 168, 0.28); }
 
 /* ── Two-column content area ── */
 
@@ -78,8 +78,8 @@
   align-items: center;
   gap: 6px;
   padding: 3px 10px;
-  background: rgba(203, 166, 247, 0.08);
-  border: 1px solid rgba(203, 166, 247, 0.25);
+  background: rgba(109, 40, 217, 0.06);
+  border: 1px solid rgba(109, 40, 217, 0.2);
   border-radius: 20px;
   align-self: flex-start;
 }
@@ -87,7 +87,7 @@
 .equationLabel {
   font-size: 10px;
   font-weight: 700;
-  color: #6c7086;
+  color: #718096;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -95,7 +95,7 @@
 .equationText {
   font-size: 16px;
   font-weight: 700;
-  color: #cba6f7;
+  color: #6d28d9;
   font-family: 'Courier New', monospace;
 }
 
@@ -113,13 +113,13 @@
 .prompt_given {
   background: rgba(166, 227, 161, 0.12);
   border: 1px solid rgba(166, 227, 161, 0.35);
-  color: #a6e3a1;
+  color: #2d7a4f;
 }
 
 .prompt_find {
   background: rgba(116, 199, 236, 0.12);
   border: 1px solid rgba(116, 199, 236, 0.35);
-  color: #74c7ec;
+  color: #1a7fa0;
 }
 
 /* ── Question text + unit tokens ── */
@@ -127,7 +127,7 @@
 .questionText {
   margin: 0;
   font-size: 14px;
-  color: #cdd6f4;
+  color: #1a202c;
   line-height: 1.65;
 }
 
@@ -153,7 +153,7 @@
   margin: 2px 0 0;
   font-size: 12px;
   font-style: italic;
-  color: #9399b2;
+  color: #718096;
   line-height: 1.4;
 }
 
@@ -168,9 +168,9 @@
 
 .hintToggle {
   background: none;
-  border: 1px solid #45475a;
+  border: 1px solid #d1d9e0;
   border-radius: 6px;
-  color: #6c7086;
+  color: #718096;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
@@ -183,14 +183,14 @@
 }
 
 .hintToggle:hover {
-  color: #cba6f7;
-  border-color: #cba6f7;
+  color: #6d28d9;
+  border-color: #6d28d9;
 }
 
 .hintCard {
   padding: 8px 10px;
-  background: #1e1e2e;
-  border: 1px solid #313244;
+  background: #fff;
+  border: 1px solid #d1d9e0;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -200,14 +200,14 @@
 .hintCardTitle {
   font-size: 9px;
   font-weight: 700;
-  color: #45475a;
+  color: #a0aec0;
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
 .hintCardBody {
   font-size: 12px;
-  color: #a6adc8;
+  color: #4a5568;
   line-height: 1.4;
 }
 
@@ -222,6 +222,6 @@
 .empty {
   padding: 14px;
   font-size: 13px;
-  color: #45475a;
+  color: #a0aec0;
   text-align: center;
 }

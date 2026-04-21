@@ -1,6 +1,6 @@
 .panel {
-  background: #181825;
-  border-top: 1px solid #313244;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
   padding: 10px 20px;
   display: flex;
   flex-direction: row;
@@ -20,7 +20,7 @@
 .label {
   font-size: 11px;
   font-weight: 700;
-  color: #6c7086;
+  color: #718096;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   flex-shrink: 0;
@@ -37,9 +37,9 @@
 .chip {
   padding: 6px 16px;
   border-radius: 6px;
-  background: #313244;
-  border: 1px solid #45475a;
-  color: #f9e2af;
+  background: #f0f4f8;
+  border: 1px solid #d1d9e0;
+  color: #c08800;
   font-size: 16px;
   font-weight: 700;
   font-family: 'Courier New', monospace;
@@ -49,8 +49,8 @@
 }
 
 .chip:hover {
-  background: #45475a;
-  border-color: #585b70;
+  background: #e2e8f0;
+  border-color: #b0bec5;
 }
 
 .chip:active {
@@ -63,7 +63,7 @@
 
 .hint {
   font-size: 11px;
-  color: #45475a;
+  color: #a0aec0;
   white-space: nowrap;
   flex-shrink: 0;
 }
