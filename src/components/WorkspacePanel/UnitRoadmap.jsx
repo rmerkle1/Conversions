@@ -5,7 +5,7 @@ import styles from './UnitRoadmap.module.css';
 // ── Geometry constants ────────────────────────────────────────────────────────
 const R         = 34;
 const NR        = 4.5;
-const CANVAS_BG = '#1e1e2e';
+const CANVAS_BG = '#fff';
 
 const CX = { mass: 58,  moles: 182, parts: 306 };
 const CY = { top:  86,  vol:   214 };
