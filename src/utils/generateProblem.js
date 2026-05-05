@@ -290,6 +290,104 @@ const EASY = [
       compounds:  [],
     };
   },
+  // mg → g  (Metric)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const mg  = rand(500, 20000, 500);
+    return {
+      parts: [`Convert ${mg} `, u('mg'), ` of ${cpd.formula} to `, u('g'), `.`],
+      path:       ['Metric'],
+      setupChain: 'mg × (g / mg)',
+      givenValue: mg,
+      answer:     mg / 1000,
+      poolValues:  [mg, 1, 1000],
+      distractors: [100, 10, 500],
+      compounds:  [],
+    };
+  },
+  // g → kg  (Metric)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const g   = rand(500, 5000, 500);
+    return {
+      parts: [`Convert ${g} `, u('g'), ` of ${cpd.formula} to `, u('kg'), `.`],
+      path:       ['Metric'],
+      setupChain: 'g × (kg / g)',
+      givenValue: g,
+      answer:     g / 1000,
+      poolValues:  [g, 1, 1000],
+      distractors: [100, 10, 500],
+      compounds:  [],
+    };
+  },
+  // L → mL  (Metric)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const L   = rand(1, 5);
+    return {
+      parts: [`Convert ${L} `, u('L'), ` of ${cpd.formula} solution to `, u('mL'), `.`],
+      path:       ['Metric'],
+      setupChain: 'L × (mL / L)',
+      givenValue: L,
+      answer:     L * 1000,
+      poolValues:  [L, 1000, 1],
+      distractors: [100, 10, 500],
+      compounds:  [],
+    };
+  },
+  // mL → L  (Metric)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const mL  = rand(100, 2000, 100);
+    return {
+      parts: [`Convert ${mL} `, u('mL'), ` of ${cpd.formula} solution to `, u('L'), `.`],
+      path:       ['Metric'],
+      setupChain: 'mL × (L / mL)',
+      givenValue: mL,
+      answer:     mL / 1000,
+      poolValues:  [mL, 1, 1000],
+      distractors: [100, 10, 500],
+      compounds:  [],
+    };
+  },
+  // molecules → mol  (Avogadro's #, reverse)
+  () => {
+    const cpd   = pick(COMPOUNDS);
+    const n_mol = rand(1, 5);
+    const mlcls = n_mol * AVOGADRO;
+    return {
+      parts: [
+        `How many `, u('mol'), ` are in ${fmtNum(mlcls)} `, u('mlcls', 'molecules'), ` of ${cpd.formula}?`,
+      ],
+      path:       ["Avogadro's #"],
+      setupChain: 'molecules × (1 mol / molecules)',
+      givenValue: mlcls,
+      answer:     n_mol,
+      poolValues:  [mlcls, 1, AVOGADRO],
+      distractors: [2, 3, 4, 5].filter((x) => x !== n_mol),
+      compounds:  [cpd],
+    };
+  },
+  // mL → mol  (Molarity direct — mL treated as L-scale via molarity in mL)
+  // Written as: given mL of a known M solution, find mol
+  () => {
+    const cpd      = pick(COMPOUNDS);
+    const molarity = pick(MOLARITIES);
+    const mL       = rand(200, 2000, 200);
+    return {
+      parts: [
+        `How many `, u('mol'), ` of ${cpd.formula} are in ${mL} `, u('mL'),
+        ` of a ${molarity} M solution?`,
+      ],
+      path:       ['Metric', 'Molarity'],
+      setupChain: 'mL × (L / mL) × (mol / L)',
+      givenValue: mL,
+      answer:     (mL / 1000) * molarity,
+      poolValues:  [mL, 1, 1000, molarity],
+      distractors: MOLARITIES.filter((m) => m !== molarity),
+      compounds:  [cpd],
+    };
+  },
 ];
 
 // ── Medium: 2–3 CFs ──────────────────────────────────────────────────────────
@@ -427,6 +525,181 @@ const MEDIUM = [
       compounds:  [{ id: ion.id, formula: ion.formula, mm: ion.mm }],
     };
   },
+  // kg → g → mol  (Metric + Molar Mass)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const mm  = cpd.mm;
+    const kg  = rand(1, 5);
+    return {
+      parts: [
+        `How many `, u('mol'), ` are in ${kg} `, u('kg'), ` of ${cpd.formula}?`,
+        n(`Molar mass = ${mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molar Mass'],
+      setupChain: 'kg × (g / kg) × (mol / g)',
+      givenValue: kg,
+      answer:     (kg * 1000) / mm,
+      poolValues:  [kg, 1000, 1, mm],
+      distractors: mmDistractors([mm]),
+      compounds:  [cpd],
+    };
+  },
+  // mol → g → mg  (Molar Mass + Metric)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const mm  = cpd.mm;
+    const mol = rand(1, 10);
+    return {
+      parts: [
+        `What is the mass in `, u('mg'), ` of ${mol} `, u('mol'), ` of ${cpd.formula}?`,
+        n(`Molar mass = ${mm} g/mol`),
+      ],
+      path:       ['Molar Mass', 'Metric'],
+      setupChain: 'mol × (g / mol) × (mg / g)',
+      givenValue: mol,
+      answer:     mol * mm * 1000,
+      poolValues:  [mol, mm, 1, 1000],
+      distractors: mmDistractors([mm]),
+      compounds:  [cpd],
+    };
+  },
+  // mL → L → mol  (Metric + Molarity)
+  () => {
+    const cpd      = pick(COMPOUNDS);
+    const molarity = pick(MOLARITIES);
+    const mL       = rand(100, 2000, 100);
+    return {
+      parts: [
+        `How many `, u('mol'), ` of ${cpd.formula} are in ${mL} `, u('mL'),
+        ` of a ${molarity} M solution?`,
+      ],
+      path:       ['Metric', 'Molarity'],
+      setupChain: 'mL × (L / mL) × (mol / L)',
+      givenValue: mL,
+      answer:     (mL / 1000) * molarity,
+      poolValues:  [mL, 1, 1000, molarity],
+      distractors: MOLARITIES.filter((m) => m !== molarity),
+      compounds:  [cpd],
+    };
+  },
+  // mL → L → mol → g  (Metric + Molarity + Molar Mass)
+  () => {
+    const cpd      = pick(COMPOUNDS);
+    const mm       = cpd.mm;
+    const molarity = pick(MOLARITIES);
+    const mL       = rand(100, 2000, 100);
+    return {
+      parts: [
+        `What is the mass in `, u('g'), ` of ${cpd.formula} dissolved in ${mL} `, u('mL'),
+        ` of a ${molarity} M solution?`,
+        n(`Molar mass = ${mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molarity', 'Molar Mass'],
+      setupChain: 'mL × (L / mL) × (mol / L) × (g / mol)',
+      givenValue: mL,
+      answer:     (mL / 1000) * molarity * mm,
+      poolValues:  [mL, 1, 1000, molarity, mm],
+      distractors: mmDistractors([mm]),
+      compounds:  [cpd],
+    };
+  },
+  // L → mol → g → mg  (Molarity + Molar Mass + Metric)
+  () => {
+    const cpd      = pick(COMPOUNDS);
+    const mm       = cpd.mm;
+    const molarity = pick(MOLARITIES);
+    const vol      = rand(1, 5);
+    return {
+      parts: [
+        `How many `, u('mg'), ` of ${cpd.formula} are dissolved in ${vol} `, u('L'),
+        ` of a ${molarity} M solution?`,
+        n(`Molar mass = ${mm} g/mol`),
+      ],
+      path:       ['Molarity', 'Molar Mass', 'Metric'],
+      setupChain: 'L × (mol / L) × (g / mol) × (mg / g)',
+      givenValue: vol,
+      answer:     vol * molarity * mm * 1000,
+      poolValues:  [vol, molarity, 1, mm, 1000],
+      distractors: mmDistractors([mm]),
+      compounds:  [cpd],
+    };
+  },
+  // g → mol → molecules → atoms  (Molar Mass + Avogadro's # + Atomic Ratio)
+  () => {
+    const mf = pick(MOLECULE_FACTS);
+    const g  = rand(10, 200, 10);
+    return {
+      parts: [
+        `How many ${mf.name} `, u('atoms'), ` are in ${g} `, u('g'), ` of ${mf.formula}?`,
+        n(`Molar mass = ${mf.mm} g/mol; ${mf.count} ${mf.element} atom${mf.count > 1 ? 's' : ''} per molecule`),
+      ],
+      path:       ['Molar Mass', "Avogadro's #", 'Atomic Ratio'],
+      setupChain: 'g × (mol / g) × (molecules / mol) × (atoms / molecule)',
+      givenValue: g,
+      answer:     (g / mf.mm) * AVOGADRO * mf.count,
+      poolValues:  [g, 1, mf.mm, AVOGADRO, mf.count],
+      distractors: mmDistractors([mf.mm]),
+      compounds:  [{ id: mf.id, formula: mf.formula, mm: mf.mm }],
+    };
+  },
+  // L → mol → molecules → ions  (Molarity + Avogadro's # + Atomic Ratio)
+  () => {
+    const ion      = pick(ION_FACTS);
+    const molarity = pick(MOLARITIES);
+    const vol      = rand(1, 5);
+    return {
+      parts: [
+        `How many ${ion.name} (${ion.ion}) `, u('ions'), ` are in ${vol} `, u('L'),
+        ` of a ${molarity} M ${ion.formula} solution?`,
+        n(`${ion.count} ${ion.ion} per formula unit`),
+      ],
+      path:       ['Molarity', "Avogadro's #", 'Atomic Ratio'],
+      setupChain: 'L × (mol / L) × (f.u. / mol) × (ions / f.u.)',
+      givenValue: vol,
+      answer:     vol * molarity * AVOGADRO * ion.count,
+      poolValues:  [vol, molarity, 1, AVOGADRO, ion.count],
+      distractors: MOLARITIES.filter((m) => m !== molarity),
+      compounds:  [{ id: ion.id, formula: ion.formula, mm: ion.mm }],
+    };
+  },
+  // mL → L → mol → molecules  (Metric + Molarity + Avogadro's #)
+  () => {
+    const cpd      = pick(COMPOUNDS);
+    const molarity = pick(MOLARITIES);
+    const mL       = rand(100, 1000, 100);
+    return {
+      parts: [
+        `How many `, u('mlcls', 'molecules'), ` of ${cpd.formula} are in ${mL} `, u('mL'),
+        ` of a ${molarity} M solution?`,
+      ],
+      path:       ['Metric', 'Molarity', "Avogadro's #"],
+      setupChain: 'mL × (L / mL) × (mol / L) × (molecules / mol)',
+      givenValue: mL,
+      answer:     (mL / 1000) * molarity * AVOGADRO,
+      poolValues:  [mL, 1, 1000, molarity, AVOGADRO],
+      distractors: MOLARITIES.filter((m) => m !== molarity),
+      compounds:  [cpd],
+    };
+  },
+  // kg → g → mol → molecules  (Metric + Molar Mass + Avogadro's #)
+  () => {
+    const cpd = pick(COMPOUNDS);
+    const mm  = cpd.mm;
+    const kg  = rand(1, 5);
+    return {
+      parts: [
+        `How many `, u('mlcls', 'molecules'), ` are in ${kg} `, u('kg'), ` of ${cpd.formula}?`,
+        n(`Molar mass = ${mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molar Mass', "Avogadro's #"],
+      setupChain: 'kg × (g / kg) × (mol / g) × (molecules / mol)',
+      givenValue: kg,
+      answer:     (kg * 1000 / mm) * AVOGADRO,
+      poolValues:  [kg, 1000, 1, mm, AVOGADRO],
+      distractors: mmDistractors([mm]),
+      compounds:  [cpd],
+    };
+  },
 ];
 
 // ── Hard: balanced reactions, molar ratio, mol A & mol B ─────────────────────
@@ -517,6 +790,136 @@ const HARD = [
       givenValue: g,
       answer:     (g / cpdA.mm) * (cpdB.coeff / cpdA.coeff) / molarity,
       poolValues:  [g, 1, cpdA.mm, cpdB.coeff, cpdA.coeff, molarity],
+      distractors: mmDistractors([cpdA.mm]),
+      compounds:  [cpdA, cpdB],
+    };
+  },
+  // mg → g → mol → L → mL  (Metric + Molar Mass + Molarity + Metric)  "mg to mL"
+  () => {
+    const cpd      = pick(COMPOUNDS);
+    const mm       = cpd.mm;
+    const molarity = pick(MOLARITIES);
+    const mg       = rand(100, 5000, 100);
+    return {
+      parts: [
+        `What volume in `, u('mL'), ` of a ${molarity} M ${cpd.formula} solution contains ${mg} `, u('mg'),
+        ` of ${cpd.formula}?`,
+        n(`Molar mass = ${mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molar Mass', 'Molarity', 'Metric'],
+      setupChain: 'mg × (g / mg) × (mol / g) × (L / mol) × (mL / L)',
+      givenValue: mg,
+      answer:     mg / mm / molarity,
+      poolValues:  [mg, 1, 1000, mm, molarity],
+      distractors: mmDistractors([mm]),
+      compounds:  [cpd],
+    };
+  },
+  // mL → L → mol → molecules → atoms  (Metric + Molarity + Avogadro's # + Atomic Ratio)  "mL to atoms"
+  () => {
+    const mf       = pick(MOLECULE_FACTS);
+    const molarity = pick(MOLARITIES);
+    const mL       = rand(100, 1000, 100);
+    return {
+      parts: [
+        `How many ${mf.name} `, u('atoms'), ` are in ${mL} `, u('mL'),
+        ` of a ${molarity} M ${mf.formula} solution?`,
+        n(`${mf.count} ${mf.element} atom${mf.count > 1 ? 's' : ''} per molecule`),
+      ],
+      path:       ['Metric', 'Molarity', "Avogadro's #", 'Atomic Ratio'],
+      setupChain: 'mL × (L / mL) × (mol / L) × (molecules / mol) × (atoms / molecule)',
+      givenValue: mL,
+      answer:     (mL / 1000) * molarity * AVOGADRO * mf.count,
+      poolValues:  [mL, 1, 1000, molarity, AVOGADRO, mf.count],
+      distractors: MOLARITIES.filter((m) => m !== molarity),
+      compounds:  [{ id: mf.id, formula: mf.formula, mm: mf.mm }],
+    };
+  },
+  // mg → g → mol A → mol B → g B  (Metric + Molar Mass + Molar Ratio + Molar Mass)  stoichiometry from mg
+  () => {
+    const rxn = pick(REACTIONS);
+    const [cpdA, cpdB] = pickCrossReactionPair(rxn);
+    const mg = rand(100, 5000, 100);
+    return {
+      equation: rxn.eq,
+      parts: [
+        `How many `, u('g', `g of ${cpdB.formula}`),
+        ` of ${cpdB.formula} are produced from ${mg} `, u('mg', `mg of ${cpdA.formula}`),
+        ` of ${cpdA.formula}?`,
+        n(`Molar mass: ${cpdA.formula} = ${cpdA.mm} g/mol, ${cpdB.formula} = ${cpdB.mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molar Mass', 'Molar Ratio', 'Molar Mass'],
+      setupChain: `mg ${cpdA.formula} × (g / mg) × (mol ${cpdA.formula} / g) × (mol ${cpdB.formula} / mol ${cpdA.formula}) × (g / mol ${cpdB.formula})`,
+      givenValue: mg,
+      answer:     (mg / 1000 / cpdA.mm) * (cpdB.coeff / cpdA.coeff) * cpdB.mm,
+      poolValues:  [mg, 1, 1000, cpdA.mm, cpdB.coeff, cpdA.coeff, cpdB.mm],
+      distractors: mmDistractors([cpdA.mm, cpdB.mm]),
+      compounds:  [cpdA, cpdB],
+    };
+  },
+  // g A → mol A → mol B → g B → mg  (Molar Mass + Molar Ratio + Molar Mass + Metric)  stoichiometry to mg
+  () => {
+    const rxn = pick(REACTIONS);
+    const [cpdA, cpdB] = pickCrossReactionPair(rxn);
+    const g = rand(10, 200, 10);
+    return {
+      equation: rxn.eq,
+      parts: [
+        `How many `, u('mg', `mg of ${cpdB.formula}`),
+        ` of ${cpdB.formula} are produced from ${g} `, u('g', `g of ${cpdA.formula}`),
+        ` of ${cpdA.formula}?`,
+        n(`Molar mass: ${cpdA.formula} = ${cpdA.mm} g/mol, ${cpdB.formula} = ${cpdB.mm} g/mol`),
+      ],
+      path:       ['Molar Mass', 'Molar Ratio', 'Molar Mass', 'Metric'],
+      setupChain: `g ${cpdA.formula} × (mol ${cpdA.formula} / g) × (mol ${cpdB.formula} / mol ${cpdA.formula}) × (g / mol ${cpdB.formula}) × (mg / g)`,
+      givenValue: g,
+      answer:     (g / cpdA.mm) * (cpdB.coeff / cpdA.coeff) * cpdB.mm * 1000,
+      poolValues:  [g, 1, cpdA.mm, cpdB.coeff, cpdA.coeff, cpdB.mm, 1000],
+      distractors: mmDistractors([cpdA.mm, cpdB.mm]),
+      compounds:  [cpdA, cpdB],
+    };
+  },
+  // mL → L → mol A → mol B → g B  (Metric + Molarity + Molar Ratio + Molar Mass)  stoichiometry from mL solution
+  () => {
+    const rxn = pick(REACTIONS);
+    const [cpdA, cpdB] = pickCrossReactionPair(rxn);
+    const molarity = pick(MOLARITIES);
+    const mL = rand(100, 2000, 100);
+    return {
+      equation: rxn.eq,
+      parts: [
+        `How many `, u('g', `g of ${cpdB.formula}`),
+        ` of ${cpdB.formula} are produced from ${mL} `, u('mL', `mL of ${cpdA.formula} solution`),
+        ` of a ${molarity} M ${cpdA.formula} solution?`,
+        n(`Molar mass ${cpdB.formula} = ${cpdB.mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molarity', 'Molar Ratio', 'Molar Mass'],
+      setupChain: `mL ${cpdA.formula} × (L / mL) × (mol ${cpdA.formula} / L) × (mol ${cpdB.formula} / mol ${cpdA.formula}) × (g / mol ${cpdB.formula})`,
+      givenValue: mL,
+      answer:     (mL / 1000) * molarity * (cpdB.coeff / cpdA.coeff) * cpdB.mm,
+      poolValues:  [mL, 1, 1000, molarity, cpdB.coeff, cpdA.coeff, cpdB.mm],
+      distractors: mmDistractors([cpdB.mm]),
+      compounds:  [cpdA, cpdB],
+    };
+  },
+  // mg → g → mol A → mol B → molecules B  (Metric + Molar Mass + Molar Ratio + Avogadro's #)
+  () => {
+    const rxn = pick(REACTIONS);
+    const [cpdA, cpdB] = pickCrossReactionPair(rxn);
+    const mg = rand(100, 5000, 100);
+    return {
+      equation: rxn.eq,
+      parts: [
+        `How many `, u('mlcls', `molecules of ${cpdB.formula}`),
+        ` of ${cpdB.formula} are produced from ${mg} `, u('mg', `mg of ${cpdA.formula}`),
+        ` of ${cpdA.formula}?`,
+        n(`Molar mass ${cpdA.formula} = ${cpdA.mm} g/mol`),
+      ],
+      path:       ['Metric', 'Molar Mass', 'Molar Ratio', "Avogadro's #"],
+      setupChain: `mg ${cpdA.formula} × (g / mg) × (mol ${cpdA.formula} / g) × (mol ${cpdB.formula} / mol ${cpdA.formula}) × (molecules / mol)`,
+      givenValue: mg,
+      answer:     (mg / 1000 / cpdA.mm) * (cpdB.coeff / cpdA.coeff) * AVOGADRO,
+      poolValues:  [mg, 1, 1000, cpdA.mm, cpdB.coeff, cpdA.coeff, AVOGADRO],
       distractors: mmDistractors([cpdA.mm]),
       compounds:  [cpdA, cpdB],
     };
