@@ -40,6 +40,7 @@ export default function ConnectionLines({ steps, canvasRef, pairingUnit, mouseCa
       });
 
       const canvasRect = canvas.getBoundingClientRect();
+      const zoom = canvasRect.width / canvas.offsetWidth || 1;
       const scrollLeft = canvas.scrollLeft;
       const newLines = [];
 
@@ -49,10 +50,10 @@ export default function ConnectionLines({ steps, canvasRef, pairingUnit, mouseCa
           const a = group[i].el.getBoundingClientRect();
           const b = group[i + 1].el.getBoundingClientRect();
 
-          const x1 = a.right - canvasRect.left + scrollLeft;
-          const y1 = (a.top + a.bottom) / 2 - canvasRect.top;
-          const x2 = b.left  - canvasRect.left + scrollLeft;
-          const y2 = (b.top + b.bottom) / 2 - canvasRect.top;
+          const x1 = (a.right - canvasRect.left + scrollLeft) / zoom;
+          const y1 = ((a.top + a.bottom) / 2 - canvasRect.top) / zoom;
+          const x2 = (b.left  - canvasRect.left + scrollLeft) / zoom;
+          const y2 = ((b.top + b.bottom) / 2 - canvasRect.top) / zoom;
 
           newLines.push({
             d: `M ${x1} ${y1} L ${x2} ${y2}`,
@@ -78,12 +79,13 @@ export default function ConnectionLines({ steps, canvasRef, pairingUnit, mouseCa
     );
     if (sourceEl) {
       const canvasRect = canvas.getBoundingClientRect();
+      const zoom = canvasRect.width / canvas.offsetWidth || 1;
       const a = sourceEl.getBoundingClientRect();
-      const x1 = a.right - canvasRect.left + canvas.scrollLeft;
-      const y1 = (a.top + a.bottom) / 2 - canvasRect.top;
+      const x1 = (a.right - canvasRect.left + canvas.scrollLeft) / zoom;
+      const y1 = ((a.top + a.bottom) / 2 - canvasRect.top) / zoom;
       liveLine = (
         <path
-          d={`M ${x1} ${y1} L ${mouseCanvas.x} ${mouseCanvas.y}`}
+          d={`M ${x1} ${y1} L ${mouseCanvas.x / zoom} ${mouseCanvas.y / zoom}`}
           fill="none"
           stroke={pairingUnit.unit.color}
           strokeWidth={2.5}
