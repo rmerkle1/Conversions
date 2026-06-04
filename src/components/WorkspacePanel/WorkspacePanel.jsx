@@ -536,18 +536,21 @@ const WorkspacePanel = forwardRef(function WorkspacePanel(
       )}
 
       {/* Cursor pill */}
-      {pairingUnit && mouseViewport && (
-        <div
-          className={styles.cursorPill}
-          style={{
-            left: mouseViewport.x + 14,
-            top:  mouseViewport.y - 12,
-            backgroundColor: pairingUnit.unit.color,
-          }}
-        >
-          {pairingUnit.unit.label}
-        </div>
-      )}
+      {pairingUnit && mouseViewport && (() => {
+        const zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;
+        return (
+          <div
+            className={styles.cursorPill}
+            style={{
+              left: mouseViewport.x / zoom + 14,
+              top:  mouseViewport.y / zoom - 12,
+              backgroundColor: pairingUnit.unit.color,
+            }}
+          >
+            {pairingUnit.unit.label}
+          </div>
+        );
+      })()}
     </div>
   );
 });
