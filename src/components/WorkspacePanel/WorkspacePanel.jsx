@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, forwardRef, useImperativeHandle, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useDroppable } from '@dnd-kit/core';
 import { UNITS, UNIT_COLORS } from '../../constants/units';
 import { validateUnits, validateNumbers } from '../../utils/validateWorkspace';
@@ -535,22 +536,20 @@ const WorkspacePanel = forwardRef(function WorkspacePanel(
         </div>
       )}
 
-      {/* Cursor pill */}
-      {pairingUnit && mouseViewport && (() => {
-        const zoom = parseFloat(getComputedStyle(document.getElementById('root')).zoom) || 1;
-        return (
-          <div
-            className={styles.cursorPill}
-            style={{
-              left: mouseViewport.x / zoom + 14,
-              top:  mouseViewport.y / zoom - 12,
-              backgroundColor: pairingUnit.unit.color,
-            }}
-          >
-            {pairingUnit.unit.label}
-          </div>
-        );
-      })()}
+      {/* Cursor pill — portaled to body to escape #root zoom scope */}
+      {pairingUnit && mouseViewport && createPortal(
+        <div
+          className={styles.cursorPill}
+          style={{
+            left: mouseViewport.x + 14,
+            top:  mouseViewport.y - 12,
+            backgroundColor: pairingUnit.unit.color,
+          }}
+        >
+          {pairingUnit.unit.label}
+        </div>,
+        document.body
+      )}
     </div>
   );
 });
