@@ -537,7 +537,7 @@ const WorkspacePanel = forwardRef(function WorkspacePanel(
 
       {/* Cursor pill */}
       {pairingUnit && mouseViewport && (() => {
-        const zoom = parseFloat(getComputedStyle(document.body).zoom) || 1;
+        const zoom = parseFloat(getComputedStyle(document.getElementById('root')).zoom) || 1;
         return (
           <div
             className={styles.cursorPill}
