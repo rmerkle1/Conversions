@@ -56,7 +56,7 @@
 
 .content {
   display: grid;
-  grid-template-columns: 1fr 200px;
+  grid-template-columns: 1fr 240px;
   gap: 12px;
   padding: 10px 14px 12px;
   align-items: start;
@@ -93,7 +93,7 @@
 }
 
 .equationText {
-  font-size: 16px;
+  font-size: 19px;
   font-weight: 700;
   color: #6d28d9;
   font-family: 'Courier New', monospace;
@@ -126,7 +126,7 @@
 
 .questionText {
   margin: 0;
-  font-size: 14px;
+  font-size: 17px;
   color: #1a202c;
   line-height: 1.65;
 }
@@ -151,7 +151,7 @@
 
 .noteText {
   margin: 2px 0 0;
-  font-size: 12px;
+  font-size: 14px;
   font-style: italic;
   color: #718096;
   line-height: 1.4;
@@ -206,7 +206,7 @@
 }
 
 .hintCardBody {
-  font-size: 12px;
+  font-size: 14px;
   color: #4a5568;
   line-height: 1.4;
 }

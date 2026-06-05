@@ -75,7 +75,7 @@
 }
 
 .modeLabel {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #a0aec0;
   text-transform: uppercase;
@@ -94,7 +94,7 @@
   align-items: center;
   gap: 12px;
   padding: 8px 14px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   flex-shrink: 0;
   border-bottom: 1px solid transparent;
@@ -156,7 +156,7 @@
 .canvas {
   flex-shrink: 0;
   position: relative;
-  padding: 20px 20px 14px;
+  padding: 24px 24px 17px;
   overflow-x: auto;
   overflow-y: hidden;
   transition: background 0.15s;
@@ -170,8 +170,8 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  gap: 18px;
-  min-height: 120px;
+  gap: 22px;
+  min-height: 144px;
 }
 
 /* ── Ghost step (pairing mode) ── */
@@ -200,7 +200,7 @@
 
 .ghostHeader {
   width: 100%;
-  min-height: 26px;
+  min-height: 32px;
 }
 
 .ghostFraction {
@@ -218,8 +218,8 @@
 }
 
 .ghostSlot {
-  min-width: 72px;
-  min-height: 38px;
+  min-width: 86px;
+  min-height: 46px;
   border: 2px dashed #cbd5e0;
   border-radius: 6px;
   display: flex;
@@ -228,8 +228,8 @@
 }
 
 .ghostValueSlot {
-  min-width: 28px;
-  min-height: 38px;
+  min-width: 34px;
+  min-height: 46px;
   border: 2px dashed #d1d9e0;
   border-radius: 6px;
   display: flex;
@@ -263,15 +263,15 @@
   border-left: 1px solid #e2e8f0;
   background: #f8fafc;
   flex-shrink: 0;
-  width: 72px;
+  width: 86px;
 }
 
 .actionBtn {
-  padding: 7px 4px;
+  padding: 9px 4px;
   border-radius: 6px;
   border: 1px solid;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -340,11 +340,11 @@
 }
 
 .roadmapClosed {
-  width: 40px;
+  width: 48px;
 }
 
 .roadmapOpen {
-  width: 420px;
+  width: 460px;
 }
 
 .roadmapToggleBtn {
@@ -375,7 +375,7 @@
 }
 
 .roadmapToggleText {
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -394,7 +394,7 @@
 }
 
 .roadmapTitle {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: #718096;
   text-transform: uppercase;

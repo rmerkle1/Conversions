@@ -4,12 +4,12 @@
   background: #fff;
   border: 1px solid #d1d9e0;
   border-radius: 10px;
-  padding: 10px 14px 14px;
+  padding: 12px 16px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  width: 240px;
+  width: 280px;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
@@ -22,7 +22,7 @@
 }
 
 .panelTitle {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #718096;
   text-transform: uppercase;
@@ -50,7 +50,7 @@
   background: #fff;
   border: 1px solid #d1d9e0;
   border-radius: 10px;
-  width: 40px;
+  width: 48px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -142,7 +142,7 @@
 }
 
 .columnHeader {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #4a5568;
   text-transform: uppercase;
@@ -150,7 +150,7 @@
   margin-bottom: 4px;
   padding-bottom: 4px;
   border-bottom: 1px solid #d1d9e0;
-  min-height: 32px;
+  min-height: 38px;
   display: flex;
   align-items: flex-end;
 }
@@ -194,9 +194,9 @@
 }
 
 .unitPill {
-  padding: 6px 10px;
+  padding: 8px 13px;
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #fff;
   cursor: grab;
@@ -211,9 +211,9 @@
 }
 
 .cfPill {
-  padding: 6px 8px;
+  padding: 8px 10px;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #fff;
   cursor: grab;

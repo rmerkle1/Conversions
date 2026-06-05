@@ -37,8 +37,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 8px 12px;
+  gap: 5px;
+  padding: 10px 14px;
   border: 1px solid #d1d9e0;
   border-radius: 8px;
   background: #f8fafc;
@@ -47,11 +47,11 @@
 /* Spacer/header row — matches labelSlot height so units align across steps */
 .stepHeader {
   width: 100%;
-  min-height: 26px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: #718096;
   text-transform: uppercase;
@@ -60,8 +60,8 @@
 
 /* --- Unit slot --- */
 .unitSlot {
-  min-width: 72px;
-  min-height: 38px;
+  min-width: 86px;
+  min-height: 46px;
   border: 2px dashed #cbd5e0;
   border-radius: 6px;
   display: flex;
@@ -103,14 +103,14 @@
 }
 
 .unitLabel {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 800;
   color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.25);
 }
 
 .placeholder {
-  font-size: 10px;
+  font-size: 12px;
   color: #a0aec0;
   user-select: none;
 }
@@ -118,7 +118,7 @@
 /* --- Label slot (CF name) --- */
 .labelSlot {
   width: 100%;
-  min-height: 22px;
+  min-height: 26px;
   border: 1px dashed #d1d9e0;
   border-radius: 5px;
   display: flex;
@@ -152,7 +152,7 @@
 }
 
 .labelText {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.25);
@@ -169,8 +169,8 @@
 
 /* --- Value slot (numbers mode) --- */
 .valueSlot {
-  min-width: 46px;
-  min-height: 38px;
+  min-width: 55px;
+  min-height: 46px;
   border: 2px dashed #cbd5e0;
   border-radius: 6px;
   display: flex;
@@ -188,7 +188,7 @@
 }
 
 .valueLabel {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: #c08800;
   font-family: 'Courier New', monospace;
@@ -197,7 +197,7 @@
 }
 
 .valuePlaceholder {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 800;
   color: #a0aec0;
   user-select: none;

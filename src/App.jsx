@@ -128,7 +128,7 @@ export default function App() {
   }
 
   const mainStyle = {
-    gridTemplateColumns: `${paletteOpen ? '240px' : '40px'} 1fr`,
+    gridTemplateColumns: `${paletteOpen ? '280px' : '48px'} 1fr`,
   };
 
   return (
